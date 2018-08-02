@@ -66,6 +66,7 @@ proc external_loopback { {testpattern 5} } {
   global vio_regs_offset
   set offset $vio_regs_offset
   puts "init_done: [init_done]"
+  puts "disable reset: [disable_reset 1]"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
   puts "PRBS error count reset: [prbs_reset]"
@@ -74,6 +75,7 @@ proc external_loopback { {testpattern 5} } {
   puts "[color 1 {Error count}] : [prbs_error_cnt]"
   exec sleep 5
   puts "prbs_enable $testpattern: [prbs_enable $testpattern]"
+  set offset $vio_regs_offset
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
@@ -92,13 +94,17 @@ proc external_loopback { {testpattern 5} } {
   puts "rxprbserr: [rxprbserr]"
   puts "prbs_disable: [prbs_disable]"
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
+  set offset $vio_regs_offset
+  puts "enable reset: [disable_reset 0]"
+  puts "init_done: [init_done]"
 }
 proc serial_loopback { {testpattern 5} } {
   global offset
   global vio_regs_offset
-  set offset $vio_regs_offset
   puts "near_end_pma_loopback_enable: [near_end_pma_loopback_enable]"
+  set offset $vio_regs_offset
   puts "init_done: [init_done]"
+  puts "disable reset: [disable_reset 1]"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
   puts "PRBS error count reset: [prbs_reset]"
@@ -107,6 +113,7 @@ proc serial_loopback { {testpattern 5} } {
   puts "[color 1 {Error count}] : [prbs_error_cnt]"
   exec sleep 5
   puts "prbs_enable $testpattern: [prbs_enable $testpattern]"
+  set offset $vio_regs_offset
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
@@ -126,13 +133,17 @@ proc serial_loopback { {testpattern 5} } {
   puts "prbs_disable: [prbs_disable]"
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
   puts "near_end_pma_loopback_enable: [near_end_pma_loopback_disable]"
+  set offset $vio_regs_offset
+  puts "enable reset: [disable_reset 0]"
+  puts "init_done: [init_done]"
 }
 proc parallel_loopback { {testpattern 5} } {
   global offset
   global vio_regs_offset
-  set offset $vio_regs_offset
   puts "near_end_pcs_loopback_enable: [near_end_pcs_loopback_enable]"
+  set offset $vio_regs_offset
   puts "init_done: [init_done]"
+  puts "disable reset: [disable_reset 1]"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
   puts "PRBS error count reset: [prbs_reset]"
@@ -141,6 +152,7 @@ proc parallel_loopback { {testpattern 5} } {
   puts "[color 1 {Error count}] : [prbs_error_cnt]"
   exec sleep 5
   puts "prbs_enable $testpattern: [prbs_enable $testpattern]"
+  set offset $vio_regs_offset
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
   puts "rxprbslocked: [rxprbslocked]"
   puts "rxprbserr: [rxprbserr]"
@@ -160,6 +172,9 @@ proc parallel_loopback { {testpattern 5} } {
   puts "prbs_disable: [prbs_disable]"
   puts "++++++++++++++++++++++++++++++++++++++++++++++++"
   puts "near_end_pcs_loopback_enable: [near_end_pcs_loopback_disable]"
+  set offset $vio_regs_offset
+  puts "enable reset: [disable_reset 0]"
+  puts "init_done: [init_done]"
 }
 proc help_prbs_test {} {
   puts "program_bit_file"
@@ -184,3 +199,7 @@ proc help_prbs_test {} {
 }
 program_bit_file
 prbs_test_ini
+set offset $vio_regs_offset
+reset_all 1
+reset_all 0
+set offset $channel_offset
