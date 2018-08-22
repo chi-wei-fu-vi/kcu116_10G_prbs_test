@@ -1,7 +1,11 @@
-set common_offset [expr 0x44A10000]
-set channel_offset [expr 0x44A10000+(1<<12)]
-set vio_regs_offset [expr 0x44A10000+(1<<12)*2]
-set offset $channel_offset
+#set common_offset [expr 0x44A10000]
+#set channel_offset [expr 0x44A10000+(1<<12)]
+#set vio_regs_offset [expr 0x44A10000+(1<<12)*2]
+#set offset $channel_offset
+puts "common_offset : [set common_offset]"
+puts "channel_offset : [set channel_offset]"
+puts "vio_regs_offset : [set vio_regs_offset]"
+puts "offset : [set offset]"
 proc color {foreground text} {
   return [exec tput setaf $foreground]$text[exec tput sgr0]
 }
@@ -63,6 +67,7 @@ proc prbs_test_ini {} {
 }
 proc external_loopback { {testpattern 5} } {
   global offset
+  global channel_offset
   global vio_regs_offset
   set offset $vio_regs_offset
   puts "init_done: [init_done]"
@@ -97,9 +102,11 @@ proc external_loopback { {testpattern 5} } {
   set offset $vio_regs_offset
   puts "enable reset: [disable_reset 0]"
   puts "init_done: [init_done]"
+  set offset $channel_offset
 }
 proc serial_loopback { {testpattern 5} } {
   global offset
+  global channel_offset
   global vio_regs_offset
   puts "near_end_pma_loopback_enable: [near_end_pma_loopback_enable]"
   set offset $vio_regs_offset
@@ -136,9 +143,11 @@ proc serial_loopback { {testpattern 5} } {
   set offset $vio_regs_offset
   puts "enable reset: [disable_reset 0]"
   puts "init_done: [init_done]"
+  set offset $channel_offset
 }
 proc parallel_loopback { {testpattern 5} } {
   global offset
+  global channel_offset
   global vio_regs_offset
   puts "near_end_pcs_loopback_enable: [near_end_pcs_loopback_enable]"
   set offset $vio_regs_offset
@@ -175,6 +184,7 @@ proc parallel_loopback { {testpattern 5} } {
   set offset $vio_regs_offset
   puts "enable reset: [disable_reset 0]"
   puts "init_done: [init_done]"
+  set offset $channel_offset
 }
 proc help_prbs_test {} {
   puts "program_bit_file"
@@ -197,9 +207,9 @@ proc help_prbs_test {} {
   puts "serial_loopback"
   puts "parallel_loopback"
 }
-program_bit_file
-prbs_test_ini
-set offset $vio_regs_offset
-reset_all 1
-reset_all 0
-set offset $channel_offset
+#program_bit_file
+#prbs_test_ini
+#set offset $vio_regs_offset
+#reset_all 1
+#reset_all 0
+#set offset $channel_offset
